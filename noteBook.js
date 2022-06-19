@@ -11,3 +11,16 @@ function twoSum(nums, target) {
     return []
 }
 
+function removeDuplicates(nums) {
+    // set a new index 
+    // loop through the array, as long the current item is not eaqual to the previous one, the index will ++, finally return the index 
+    
+    let index = 1
+    for(let i = 1;i < nums.length; i++){
+        if(nums[i] !== nums[i-1]){
+            nums[index] = nums[i]
+            index ++
+        }
+    }
+    return index
+};
