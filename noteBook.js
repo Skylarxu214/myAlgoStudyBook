@@ -43,3 +43,19 @@ function rotateArray(nums, k){
     reverse(k, nums.length-1)
     return nums
 }
+
+var containsDuplicate = function(nums) {
+    // hash map 
+    // if nums[i] in hash, return true, else hash[nums[i]] = i, i++
+    //return false
+    
+    let hash= {}
+    for(let i = 0; i < nums.length; i++){
+        if(hash[nums[i]]){
+            return true
+        }else{
+            hash[nums[i]] = true
+        }
+    }
+    return false
+};
