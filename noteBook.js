@@ -101,3 +101,23 @@ function maxSubArrayOfSizeK(arr, k){
     }
     return Math.max(...result)
 }
+
+function smallestSubarrayWithAGreaterSum(arr, s){
+    let start = 0
+    let sum = 0
+    let result = Infinity
+
+    for (let end = 0; end < arr.length; end ++){
+        sum += arr[end]
+        while(sum >= s){
+            result = Math.min(result, end-start+1)
+            sum -= arr[start]
+            start ++
+        }
+    }
+
+    if(result === Infinity){
+        return 0
+    }
+    return result
+}
