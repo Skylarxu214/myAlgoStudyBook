@@ -84,3 +84,20 @@ function longestSubstringWithKDistinct(str,k){
     }
     return result
 }
+
+
+function maxSubArrayOfSizeK(arr, k){
+    let start = 0
+    let result = []
+    let sum =0
+
+    for (let end = 0; end < arr.length; end ++){
+        sum += arr[end]
+       if (end >= k - 1){
+            result.push(sum)
+            sum -= arr[start]
+            start ++
+        }
+    }
+    return Math.max(...result)
+}
