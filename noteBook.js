@@ -59,3 +59,28 @@ var containsDuplicate = function(nums) {
     }
     return false
 };
+
+function longestSubstringWithKDistinct(str,k){
+    let hash = {}
+    let start = 0
+    let result = 0
+
+    for (let end = 0; end < str.length; end ++){
+        let rightChar = str[end]
+        if(!(rightChar in hash)){
+            hash[rightChar] = 0
+        }
+        hash[rightChar] += 1
+
+        while(Object.keys(hash).length > k){
+            let leftChar = str[start]
+            hash[leftChar] -= 1
+            if (hash[leftChar]===0){
+                delete hash[leftChar]
+            }
+            start ++
+        }
+        result = Math.max(result, end - start + 1)
+    }
+    return result
+}
