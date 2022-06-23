@@ -121,3 +121,16 @@ function smallestSubarrayWithAGreaterSum(arr, s){
     }
     return result
 }
+
+function bestTimeToBuyStock(prices){
+    // set two variables: result = 0, min = prices[0]
+    // in a for loop, i = 1, compare use Math.min to find the smallest number 
+    // also get the biggest result number by using Math.max(prices[i] - min, result)
+    let result = 0
+    let min = prices[0]
+    for(let i = 1; i < prices.length; i++){
+        min = Math.min(min, prices[i])
+        result = Math.max(result, prices[i] - min)
+    }
+    return result
+}
