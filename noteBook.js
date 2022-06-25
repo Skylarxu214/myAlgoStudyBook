@@ -161,3 +161,14 @@ function productArrayExceptSelt(nums){
 
     return result 
 }
+
+var maxSubArray = function(nums) {
+    let start = 0
+    let sum = 0
+    let result = 0
+    for(let end = 0; end< nums.length; end ++){
+        sum += nums[end]
+        result = Math.max(result, sum)
+    }
+    return result 
+};
