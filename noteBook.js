@@ -172,3 +172,17 @@ var maxSubArray = function(nums) {
     }
     return result 
 };
+
+function maxSubarray(nums){
+    // compare the current window with the next element 
+    // if the element is greater than the current window + next element 
+    // start new window
+
+    let sum = 0
+    let result = -Infinity
+    for (let i = 0; i < nums.length; i ++){
+        sum = Math.max(nums[i], nums[i] + sum)
+        result = Math.max(sum, result)
+    }
+    return result
+}
