@@ -186,3 +186,17 @@ function maxSubarray(nums){
     }
     return result
 }
+
+var climbStairs = function(n) {
+    let a = 1
+    let b = 2
+    for ( let i = 3; i <= n; i ++   ){
+        let next = a+b
+        a = b
+        b = next
+    }
+    return n===1?a : b 
+    
+
+};
+
