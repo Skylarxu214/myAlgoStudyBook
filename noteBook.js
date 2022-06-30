@@ -200,3 +200,35 @@ var climbStairs = function(n) {
 
 };
 
+function climbStairs2(n){
+    let memo = {}
+    if (n === 1){
+        return 1
+    }
+    if (n === 2){
+        return 2
+    }
+
+    return memo[n] = climbStairs2(n-1) + climbStairs2(n-2)
+}
+
+function rob(nums){
+    // leetcode 198
+    // setup the first 2 element to decide where to start robbing, compare 
+    // the 1+ 3 and 2, keep the greater one and keep moving on, 
+    // the new two before will be  prev onebefore
+    // and the new onebefore will be max at current
+    // finally return the max at current
+    // use bottom up, memoization 
+    // time O(n), space O(1)
+
+    let twoBefore =nums[0]
+    let oneBefore = Math.max(nums[0], nums[1])
+    for(let i = 2; i < nums.length; i++){
+        let currentAtMax = Math.max(oneBefore, twoBefore + nums[i])
+        twoBefore = oneBefore
+        oneBefore = currentAtMax
+    }
+
+    return oneBefore
+}
