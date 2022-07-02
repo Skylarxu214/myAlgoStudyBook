@@ -227,3 +227,18 @@ function rob(nums){
 
     return oneBefore
 }
+
+function maxProduct(nums){
+    let min = nums[0]
+    let max = nums[0]
+    let result = nums[0]
+
+    for(let i =1 ; i < nums.length; i++){
+        let curMin = Math.min(nums[i], nums[i]*min, nums[i]*max)
+        let curMax = Math.max(nums[i], nums[i]*min, nums[i]*max)
+        min = curMin 
+        max = curMax
+        result = Math.max(max. result)
+    }
+    return result
+}
