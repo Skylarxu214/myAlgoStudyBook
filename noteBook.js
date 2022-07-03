@@ -210,6 +210,7 @@ function rob(nums){
     // the new two before will be  prev onebefore
     // and the new onebefore will be max at current
     // finally return the max at current
+    // in the beginning, the comapre is between 2 sets, for example 0+2 & 1+3, after get the largets, we just keep trying to get the greatest sum 
     // use bottom up, memoization 
     // time O(n), space O(1)
     if(!nums.length) {
