@@ -243,3 +243,28 @@ function maxProduct(nums){
     }
     return result
 }
+
+function cheapestFlights(n,flights, src,dst, k){
+    // whole picture: bellman ford algorithm. array to store all the prices infinity, but set src 0 since the trip starts there, keep fly to different dst, which can 
+    // renew the store the price, in a loop if the src reach to the dst, count the price and keep upload the least number
+    // the loop should be k+1 long, since the the src is included: like if k is 1, from a-b-c is 1 stop but have to fly twice this
+    // is where k+1 from
+    //eventually if the flights never reach to the given dst in K+1 times, it should be still infinity, return -1 
+    // time complexity: O(E*K) e => number of edges 
+    // space complexity: O(2n) prices arr and its temp
+
+    let prices = Array(n).fill(Infinity)
+    prices[src] = 0
+    for(let i =0; i< k+1; i++){
+        let temp = [...prices]
+        for(let[s,d,p] of flights){
+            if(prices[s] === Infinity ) continue;
+            if(prices[s] + p < temp[d]){
+                temp[d] = prices[s] + p
+            }
+        }
+        prices = [...temp]
+        console.log(prices)
+    }
+    return prices[dst]===Infinity? -1 : prices[dst]
+}
