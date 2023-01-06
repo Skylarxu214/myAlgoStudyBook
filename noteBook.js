@@ -285,3 +285,199 @@ var twoNumbers = function(l1,l2){
     }
     return head.next
 }
+
+function non_repeat(str){
+    let left = 0, map = {}, max = 0;
+    for(let right = 0; right < str.length; right++){
+        let r = str[right];
+        map[r] = (map[r] || 0) + 1;
+        while(map[r] > 1){
+            let l = str[left];
+            map[l] --
+            left ++
+        }
+
+        max = Math.max(max, right - left + 1)
+    }
+
+    return max
+}
+
+// console.log(non_repeat('aaabcdcbb'))
+
+function fruit_basket(arr){
+    let left = 0, map = {}, max = 0;
+    for(let right = 0; right < arr.length; right ++){
+        let r = arr[right];
+        map[r] = (map[r] || 0) +1;
+        while(Object.keys(map).length > 2){
+            let l = arr[left]
+            map[l] --
+            if(map[l] === 0){
+                delete map[l]
+            }
+            left ++
+        }
+        max = Math.max(max, right - left + 1)
+    }
+
+    return max;
+}
+
+// console.log(fruit_basket(['A', 'B', 'C', 'B', 'B', 'C']))
+
+function withOnesAfterReplacement(arr, k){
+    let left = 0, max = 0, count = 0
+    for(let right = 0; right < arr.length; right ++){
+        let r = arr[right];
+        if(r === 1){
+            count ++
+        }
+
+        if(right - left + 1 - count > k){
+            let l = arr[left];
+            if(l === 1){
+                count --; 
+            }
+            left ++;
+        }
+            max = Math.max(max, right - left + 1)
+    }
+    return max
+}
+
+// console.log(withOnesAfterReplacement([0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1], 2))
+
+function find_string_anagrams(str, pattern) {
+    let windowStart = 0,
+        matched = 0,
+        charFrequency = {};
+
+    for (i = 0; i < pattern.length; i++) {
+        const chr = pattern[i];
+        if (!(chr in charFrequency)) {
+            charFrequency[chr] = 0;
+        }
+        charFrequency[chr] += 1;
+    }
+
+    const resultIndices = [];
+    // our goal is to match all the characters from the 'charFrequency' with the current 
+    // window try to extend the range [windowStart, windowEnd]
+    for (windowEnd = 0; windowEnd < str.length; windowEnd++) {
+        const rightChar = str[windowEnd];
+        if (rightChar in charFrequency) {
+            // decrement the frequency of matched character
+            charFrequency[rightChar] -= 1;
+            if (charFrequency[rightChar] === 0) {
+                matched += 1;
+            }
+        }
+        console.log(charFrequency)
+
+        if (matched === Object.keys(charFrequency).length) { // have we found an anagram?
+            resultIndices.push(windowStart);
+        }
+
+        // shrink the sliding window
+        if (windowEnd >= pattern.length - 1) {
+            leftChar = str[windowStart];
+            windowStart += 1;
+            if (leftChar in charFrequency) {
+                if (charFrequency[leftChar] === 0) {
+                    matched -= 1; // before putting the character back, decrement the matched count
+                }
+                charFrequency[leftChar] += 1; // put the character back
+            }
+        }
+    }
+
+    return resultIndices;
+}
+
+
+// console.log(find_string_anagrams('ppqqappq', 'pq'));
+// console.log(find_string_anagrams('abbcabc', 'abc'));
+
+
+function find_substring(str, pattern){
+    let left = 0, count = 0, subStrStart = 0, minLen = str.length +1, map = {};
+    for (let i = 0; i < pattern.length; i ++){
+        let k = pattern[i]
+        map[k] = (map[k] || 0) + 1
+    }
+
+    for(let right = 0; right < str.length; right ++){
+        let r = str[right]
+        if( r in map){
+            map[r] --;
+            // this step is a bit different than the frequent substring
+            // this one count the numbers of the pattern
+            // so other ele can be involved
+            // and only if the ele is occurate the count will add
+            // if an extra a map[r] < 0, count wont do anything
+            if(map[r] >= 0){
+                count ++
+            }
+           
+        }
+        console.log( map)
+        console.log('count:' + count)
+        // instead of count === Object.keys(map).length, we use pattern.length 
+        while( count  === pattern.length){
+            if(minLen > right - left + 1){
+                minLen = right - left + 1;
+                subStrStart = left
+            }
+
+            const l = str[left];
+            left ++
+            if(l in map){
+                // gotta check the current map[l]
+                // map[l] ++
+                // map[l] will only be === 0 or < 0
+                // since count is perfectly matched the t.length
+                if(map[l] === 0){
+                    count --
+                }
+                map[l] ++ 
+            }
+        }
+    }
+
+    if (minLen > str.length){
+        return '';
+    }
+
+    return str.substring(subStrStart, subStrStart + minLen)
+}
+
+
+console.log(find_substring('bbdcecad', 'abc'));
+
+function non_repeat_substring(str) {
+    let windowStart = 0,
+        maxLength = 0,
+        charIndexMap = {};
+
+    // try to extend the range [windowStart, windowEnd]
+    for (let windowEnd = 0; windowEnd < str.length; windowEnd++) {
+        const rightChar = str[windowEnd];
+        // if the map already contains the 'rightChar', shrink the window from the beginning 
+        // so that we have only one occurrence of 'rightChar'
+        if (rightChar in charIndexMap) {
+            // this is tricky; in the current window, we will not have any 'rightChar' after 
+            // its previous index and if 'windowStart' is already ahead of the last index of 
+            // 'rightChar', we'll keep 'windowStart'
+            windowStart = charIndexMap[rightChar] + 1;
+        }
+        // insert the 'rightChar' into the map
+        charIndexMap[rightChar] = windowEnd;
+        // remember the maximum length so far
+        maxLength = Math.max(maxLength, windowEnd - windowStart + 1);
+    }
+    return maxLength;
+}
+
+
+console.log(`Length of the longest substring: ${non_repeat_substring('abbccde')}`);
